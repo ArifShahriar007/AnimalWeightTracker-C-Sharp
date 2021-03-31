@@ -1,0 +1,183 @@
+
+1. Window Exit:*
+
+private void btnExit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to exit the application?", "Warning",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                Application.Exit();
+	    }
+        }
+
+2. Window Close: 
+
+private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.close();
+        }
+
+3. Window Minimize:
+
+private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Minimized)
+	    {
+	    	this.WindowState = FormWindowState.Minimized;
+	    }
+        }
+
+4. Window Maximize: 
+
+private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Maximized)
+	    {
+		this.WindowState = FormWindowState.Maximized;
+	    }
+	    else
+	    {
+	    	this.WindowState = FormWindowState.Normal;
+	    }
+        }
+
+
+5. Mouse Move:
+
+private bool _dragging = false;
+private Point _start_point = new Point(0, 0);
+
+private void Form1_MouseDown(object sender, MouseEventArgs e)
+{
+	_dragging = true;
+	_start_point = new Point(e.X, e.Y);
+}
+
+private void Form1_MouseMove(object sender, MouseEventArgs e)
+{
+	if(_dragging)
+	{
+	Point p = PointToScreen(e.Location);
+	Location = new Point(p.X - this._start_point.X, p.Y - this._start_point.Y);	
+	}
+}
+
+private void Form1_MouseUp(object sender, MouseEventArgs e)
+{
+	_dragging = false;
+}
+
+6. Mouse Move:
+
+int mouseX = 0, mouseY = 0;
+bool mouseDown;
+
+private void panel1_MouseDown(object sender, MouseEnventArgs e)
+{
+	mouseDown = true;
+}
+
+private void panel1_MouseMove(object sender, MouseEventArgs e)
+{
+	if (mouseDown)
+	{
+	mouseX = MousePosition.X - 40;
+	mouseY = MousePosition.Y - 40;
+
+	this.SetDesktopLocation(mouseX, mouseY);
+	}
+}
+
+private void panel1_MouseUp(object sender, MouseEventArgs e)
+{
+	mouseDown = false;
+}
+
+7. Mouse Move:*
+
+private bool mouseDown;
+private int mouseX = 0, mouseY = 0;  
+private Point _start_point = new Point(0, 0);
+
+private void panel1_MouseDown(object sender, MouseEventArgs e)
+{
+	mouseDown = true;
+        _start_point = new Point(e.X, e.Y);
+}
+
+private void panel1_MouseMove(object sender, MouseEventArgs e)
+{
+	if (mouseDown)
+        {
+        Point p = PointToScreen(e.Location);
+        Location = new Point(p.X - this._start_point.X, p.Y - this._start_point.Y);
+        }
+}
+
+private void panel1_MouseUp(object sender, MouseEventArgs e)
+{
+	mouseDown = false;
+}
+
+8. Use the NotifyIcon: Form1_SizeChanged + notifyIcon1_MouseDoubleClick
+
+private void Form1_SizeChanged(object sender, EventArgs e)
+{
+	if (this.WindowState == FormWindowState.Minimized)
+	{
+		notifyIcon1.Icon = SystemIcons.Application;
+		notifyIcon1.BalloonTipText = "Your form has been minimized";
+		notifyIcon1.ShowBalloonTip(1000);
+	}
+
+	else if (this.WindowState == FormWindowState.Normal)
+	{
+		notifyIcon1.BalloonTipText = "Your form has come back to normal";
+		notifyIcon1.ShowBalloonTip(1000);
+	}
+}
+
+private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+{
+	this.WindowState = FormWindowState.Normal;
+}
+
+9. Form_Load:
+
+private void Form_Dashboard_Load(object sender, EventArgs e)
+        {
+            lblTitle.Text = "Ahsania Cattle And Dairy Farm | " + DateTime.Now.ToLongDateString();
+        }
+
+10. Button_SlideMenu Click:
+
+private void btnSlideMenu_Click(object sender, EventArgs e)
+        {
+            if (pnlMenu.Width != btnSlideMenu.Width)
+            {
+                pnlMenu.Width = btnSlideMenu.Width;
+            }
+            else
+            {
+                pnlMenu.Width = pnlMenuSelected.Width + btnHome.Width;
+            }
+        }
+
+11. btnLogin_Click:
+
+private void btnLogin_Click(object sender, EventArgs e)
+        {
+            var data = db.Staffs.Where(x => x.User_Name == txtUserName.Text && x.Password == txtPassword.Text).FirstOrDefault();
+            if (data != null)
+            {
+                Form_Dashboard_AWT frm = new Form_Dashboard_AWT();
+                this.Hide();
+                frm.Show();
+            }
+            else
+            {
+                lblErrorMessage.Visible = true;
+                lblErrorMessage.Text = "        Sorry, not a valid user..";
+            }
+            
+        }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b81998bad7a54be9b07afce347bfc900" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Activity" Width="1.5" PointX="7.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Animal" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Daily_Exercise" Width="1.5" PointX="12" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Daily_Log" Width="1.5" PointX="9.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Daily_Meal" Width="1.5" PointX="12" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Daily_Measurement" Width="1.5" PointX="12" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Exercise" Width="1.5" PointX="9.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Meal" Width="1.5" PointX="9.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Organization" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.OrganizationType" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Species" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Activity_Id_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Org_Id_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Species_Id_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Daily_Log_Id_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Exr_Id_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Daily_Log_Id_2" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Daily_Log_Id_3" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Meal_Id_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Org_Type_Id_1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Course" Width="1.5" PointX="7.5" PointY="7.875" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Animal_Id_1" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Course_Id_1" />
+        <EntityTypeShape EntityType="DB_WeightTrackerModel.Staff" Width="1.5" PointX="5.25" PointY="9.875" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Staff_Id_1" />
+        <AssociationConnector Association="DB_WeightTrackerModel.FK_Org_Id_2" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

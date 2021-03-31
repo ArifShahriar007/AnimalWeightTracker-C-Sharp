@@ -1,0 +1,148 @@
+﻿CREATE TABLE [dbo].[OrganizationType]
+(
+    [Org_Type_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Org_Type] VARCHAR(50) NULL
+)
+GO
+
+CREATE TABLE [dbo].[Organization]
+(
+    [Org_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NULL, 
+    [Address] VARCHAR(50) NULL, 
+    [Org_Type_Id] INT NULL,
+    CONSTRAINT [FK_Org_Type_Id_1] FOREIGN KEY ([Org_Type_Id]) REFERENCES [dbo].[OrganizationType] ([Org_Type_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Species]
+(
+    [Species_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NULL, 
+    [Description] TEXT NULL
+)
+GO
+
+CREATE TABLE [dbo].[Animal]
+(
+    [Animal_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,  
+    [Name] VARCHAR(50) NULL, 
+    [Age] VARCHAR(50) NULL, 
+    [Gender] VARCHAR(50) NULL, 
+    [Height] DECIMAL NULL,
+    [Weight] DECIMAL NULL, 
+    [Species_Id] INT NULL, 
+    [Breed] VARCHAR(50) NULL, 
+    [Org_Id] INT NULL,
+    CONSTRAINT [FK_Org_Id_1] FOREIGN KEY ([Org_Id]) REFERENCES [dbo].[Organization] ([Org_Id]),
+    CONSTRAINT [FK_Species_Id_1] FOREIGN KEY ([Species_Id]) REFERENCES [dbo].[Species] ([Species_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Meal]
+(
+    [Meal_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NULL, 
+    [Unit_In_Gram] INT NULL, 
+    [Calories] INT NULL
+)
+GO
+
+CREATE TABLE [dbo].[Exercise]
+(
+    [Exr_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NULL, 
+    [Duration] INT NULL,
+    [Calories_Burn] INT NULL,
+    [Type] VARCHAR(50) NULL  
+)
+GO
+
+CREATE TABLE [dbo].[Staff]
+(
+    [Staff_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,  
+    [Name] VARCHAR(50) NULL, 
+    [Date_Of_Birth] DATE NULL, 
+    [Gender] VARCHAR(50) NULL, 
+    [Org_Id] INT NULL,
+    [Role] VARCHAR(50) NULL,  
+    [Email] VARCHAR(50) UNIQUE NOT NULL, 
+    [User_Name] VARCHAR(50) UNIQUE NOT NULL,
+    [Password] VARCHAR(50) NULL,
+    CONSTRAINT [FK_Org_Id_2] FOREIGN KEY ([Org_Id]) REFERENCES [dbo].[Organization] ([Org_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Course]
+(
+    [Course_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NOT NULL, 
+    [Start_Date] DATE NULL, 
+    [End_Date] DATE NULL, 
+    [Goal] VARCHAR(50) NULL, 
+    [BMI] DECIMAL NULL, 
+    [Animal_Id] INT NULL, 
+    [Staff_Id] INT NULL,
+    CONSTRAINT [FK_Animal_Id_1] FOREIGN KEY ([Animal_Id]) REFERENCES [dbo].[Animal] ([Animal_Id]),
+    CONSTRAINT [FK_Staff_Id_1] FOREIGN KEY ([Staff_Id]) REFERENCES [dbo].[Staff] ([Staff_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Activity]
+(
+    [Activity_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Level] VARCHAR(50) NULL
+)
+GO
+
+CREATE TABLE [dbo].[Daily_Log]
+(
+    [Daily_Log_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,  
+    [Course_Id] INT NULL, 
+    [Activity_Id] INT NULL,
+    [Date] DATETIME NULL,
+    [Progress] VARCHAR(50) NULL,
+    CONSTRAINT [FK_Activity_Id_1] FOREIGN KEY ([Activity_Id]) REFERENCES [dbo].[Activity] ([Activity_Id]),
+    CONSTRAINT [FK_Course_Id_1] FOREIGN KEY ([Course_Id]) REFERENCES [dbo].[Course] ([Course_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Daily_Meal]
+(
+    [Daily_Meal_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Daily_Log_Id] INT NULL,
+    [Meal_Id] INT NULL,
+    [Meal_Intake] INT NULL, 
+    CONSTRAINT [FK_Daily_Log_Id_2] FOREIGN KEY ([Daily_Log_Id]) REFERENCES [dbo].[Daily_Log] ([Daily_Log_Id]),
+    CONSTRAINT [FK_Meal_Id_1] FOREIGN KEY ([Meal_Id]) REFERENCES [dbo].[Meal] ([Meal_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Daily_Measurement]
+(
+    [Daily_Msr_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Daily_Log_Id] INT NULL,
+    [Waist_Size] DECIMAL NULL, 
+    [Weight] DECIMAL NULL,
+    [Shift] VARCHAR(50) NULL, 
+    CONSTRAINT [FK_Daily_Log_Id_3] FOREIGN KEY ([Daily_Log_Id]) REFERENCES [dbo].[Daily_Log] ([Daily_Log_Id])
+	ON DELETE CASCADE
+)
+GO
+
+CREATE TABLE [dbo].[Daily_Exercise]
+(
+    [Daily_Exr_Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Daily_Log_Id] INT NULL, 
+    [Exr_Id] INT NULL,
+    [Duration] INT NULL,
+    CONSTRAINT [FK_Daily_Log_Id_1] FOREIGN KEY ([Daily_Log_Id]) REFERENCES [dbo].[Daily_Log] ([Daily_Log_Id]),
+    CONSTRAINT [FK_Exr_Id_1] FOREIGN KEY ([Exr_Id]) REFERENCES [dbo].[Exercise] ([Exr_Id])
+	ON DELETE CASCADE
+)

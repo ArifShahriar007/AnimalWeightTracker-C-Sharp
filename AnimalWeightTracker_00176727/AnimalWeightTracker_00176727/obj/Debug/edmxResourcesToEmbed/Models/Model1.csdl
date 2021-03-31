@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_WeightTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Activity">
+    <Key>
+      <PropertyRef Name="Activity_Id" />
+    </Key>
+    <Property Name="Activity_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Daily_Log" Relationship="Self.FK_Activity_Id_1" FromRole="Activity" ToRole="Daily_Log" />
+  </EntityType>
+  <EntityType Name="Animal">
+    <Key>
+      <PropertyRef Name="Animal_Id" />
+    </Key>
+    <Property Name="Animal_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Height" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Weight" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Species_Id" Type="Int32" />
+    <Property Name="Breed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Org_Id" Type="Int32" />
+    <NavigationProperty Name="Organization" Relationship="Self.FK_Org_Id_1" FromRole="Animal" ToRole="Organization" />
+    <NavigationProperty Name="Species" Relationship="Self.FK_Species_Id_1" FromRole="Animal" ToRole="Species" />
+    <NavigationProperty Name="Courses" Relationship="DB_WeightTrackerModel.FK_Animal_Id_1" FromRole="Animal" ToRole="Course" />
+  </EntityType>
+  <EntityType Name="Daily_Exercise">
+    <Key>
+      <PropertyRef Name="Daily_Exr_Id" />
+    </Key>
+    <Property Name="Daily_Exr_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Daily_Log_Id" Type="Int32" />
+    <Property Name="Exr_Id" Type="Int32" />
+    <Property Name="Duration" Type="Int32" />
+    <NavigationProperty Name="Daily_Log" Relationship="Self.FK_Daily_Log_Id_1" FromRole="Daily_Exercise" ToRole="Daily_Log" />
+    <NavigationProperty Name="Exercise" Relationship="Self.FK_Exr_Id_1" FromRole="Daily_Exercise" ToRole="Exercise" />
+  </EntityType>
+  <EntityType Name="Daily_Log">
+    <Key>
+      <PropertyRef Name="Daily_Log_Id" />
+    </Key>
+    <Property Name="Daily_Log_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Course_Id" Type="Int32" />
+    <Property Name="Activity_Id" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Progress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Activity" Relationship="Self.FK_Activity_Id_1" FromRole="Daily_Log" ToRole="Activity" />
+    <NavigationProperty Name="Daily_Exercise" Relationship="Self.FK_Daily_Log_Id_1" FromRole="Daily_Log" ToRole="Daily_Exercise" />
+    <NavigationProperty Name="Daily_Meal" Relationship="Self.FK_Daily_Log_Id_2" FromRole="Daily_Log" ToRole="Daily_Meal" />
+    <NavigationProperty Name="Daily_Measurement" Relationship="Self.FK_Daily_Log_Id_3" FromRole="Daily_Log" ToRole="Daily_Measurement" />
+    <NavigationProperty Name="Course" Relationship="DB_WeightTrackerModel.FK_Course_Id_1" FromRole="Daily_Log" ToRole="Course" />
+  </EntityType>
+  <EntityType Name="Daily_Meal">
+    <Key>
+      <PropertyRef Name="Daily_Meal_Id" />
+    </Key>
+    <Property Name="Daily_Meal_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Daily_Log_Id" Type="Int32" />
+    <Property Name="Meal_Id" Type="Int32" />
+    <Property Name="Meal_Intake" Type="Int32" />
+    <NavigationProperty Name="Daily_Log" Relationship="Self.FK_Daily_Log_Id_2" FromRole="Daily_Meal" ToRole="Daily_Log" />
+    <NavigationProperty Name="Meal" Relationship="Self.FK_Meal_Id_1" FromRole="Daily_Meal" ToRole="Meal" />
+  </EntityType>
+  <EntityType Name="Daily_Measurement">
+    <Key>
+      <PropertyRef Name="Daily_Msr_Id" />
+    </Key>
+    <Property Name="Daily_Msr_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Daily_Log_Id" Type="Int32" />
+    <Property Name="Waist_Size" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Weight" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Shift" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Daily_Log" Relationship="Self.FK_Daily_Log_Id_3" FromRole="Daily_Measurement" ToRole="Daily_Log" />
+  </EntityType>
+  <EntityType Name="Exercise">
+    <Key>
+      <PropertyRef Name="Exr_Id" />
+    </Key>
+    <Property Name="Exr_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Duration" Type="Int32" />
+    <Property Name="Calories_Burn" Type="Int32" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Daily_Exercise" Relationship="Self.FK_Exr_Id_1" FromRole="Exercise" ToRole="Daily_Exercise" />
+  </EntityType>
+  <EntityType Name="Meal">
+    <Key>
+      <PropertyRef Name="Meal_Id" />
+    </Key>
+    <Property Name="Meal_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Unit_In_Gram" Type="Int32" />
+    <Property Name="Calories" Type="Int32" />
+    <NavigationProperty Name="Daily_Meal" Relationship="Self.FK_Meal_Id_1" FromRole="Meal" ToRole="Daily_Meal" />
+  </EntityType>
+  <EntityType Name="Organization">
+    <Key>
+      <PropertyRef Name="Org_Id" />
+    </Key>
+    <Property Name="Org_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Org_Type_Id" Type="Int32" />
+    <NavigationProperty Name="Animals" Relationship="Self.FK_Org_Id_1" FromRole="Organization" ToRole="Animal" />
+    <NavigationProperty Name="OrganizationType" Relationship="Self.FK_Org_Type_Id_1" FromRole="Organization" ToRole="OrganizationType" />
+    <NavigationProperty Name="Staffs" Relationship="DB_WeightTrackerModel.FK_Org_Id_2" FromRole="Organization" ToRole="Staff" />
+  </EntityType>
+  <EntityType Name="OrganizationType">
+    <Key>
+      <PropertyRef Name="Org_Type_Id" />
+    </Key>
+    <Property Name="Org_Type_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Organizations" Relationship="Self.FK_Org_Type_Id_1" FromRole="OrganizationType" ToRole="Organization" />
+  </EntityType>
+  <EntityType Name="Species">
+    <Key>
+      <PropertyRef Name="Species_Id" />
+    </Key>
+    <Property Name="Species_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Animals" Relationship="Self.FK_Species_Id_1" FromRole="Species" ToRole="Animal" />
+  </EntityType>
+  <Association Name="FK_Activity_Id_1">
+    <End Role="Activity" Type="Self.Activity" Multiplicity="0..1" />
+    <End Role="Daily_Log" Type="Self.Daily_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Activity">
+        <PropertyRef Name="Activity_Id" />
+      </Principal>
+      <Dependent Role="Daily_Log">
+        <PropertyRef Name="Activity_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Org_Id_1">
+    <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Org_Id" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Species_Id_1">
+    <End Role="Species" Type="Self.Species" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Species">
+        <PropertyRef Name="Species_Id" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="Species_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Daily_Log_Id_1">
+    <End Role="Daily_Log" Type="Self.Daily_Log" Multiplicity="0..1" />
+    <End Role="Daily_Exercise" Type="Self.Daily_Exercise" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Daily_Log">
+        <PropertyRef Name="Daily_Log_Id" />
+      </Principal>
+      <Dependent Role="Daily_Exercise">
+        <PropertyRef Name="Daily_Log_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Exr_Id_1">
+    <End Role="Exercise" Type="Self.Exercise" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Daily_Exercise" Type="Self.Daily_Exercise" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exercise">
+        <PropertyRef Name="Exr_Id" />
+      </Principal>
+      <Dependent Role="Daily_Exercise">
+        <PropertyRef Name="Exr_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Daily_Log_Id_2">
+    <End Role="Daily_Log" Type="Self.Daily_Log" Multiplicity="0..1" />
+    <End Role="Daily_Meal" Type="Self.Daily_Meal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Daily_Log">
+        <PropertyRef Name="Daily_Log_Id" />
+      </Principal>
+      <Dependent Role="Daily_Meal">
+        <PropertyRef Name="Daily_Log_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Daily_Log_Id_3">
+    <End Role="Daily_Log" Type="Self.Daily_Log" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Daily_Measurement" Type="Self.Daily_Measurement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Daily_Log">
+        <PropertyRef Name="Daily_Log_Id" />
+      </Principal>
+      <Dependent Role="Daily_Measurement">
+        <PropertyRef Name="Daily_Log_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Meal_Id_1">
+    <End Role="Meal" Type="Self.Meal" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Daily_Meal" Type="Self.Daily_Meal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Meal">
+        <PropertyRef Name="Meal_Id" />
+      </Principal>
+      <Dependent Role="Daily_Meal">
+        <PropertyRef Name="Meal_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Org_Type_Id_1">
+    <End Role="OrganizationType" Type="Self.OrganizationType" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Organization" Type="Self.Organization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrganizationType">
+        <PropertyRef Name="Org_Type_Id" />
+      </Principal>
+      <Dependent Role="Organization">
+        <PropertyRef Name="Org_Type_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB_WeightTrackerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Activities" EntityType="Self.Activity" />
+    <EntitySet Name="Animals" EntityType="Self.Animal" />
+    <EntitySet Name="Daily_Exercise" EntityType="Self.Daily_Exercise" />
+    <EntitySet Name="Daily_Log" EntityType="Self.Daily_Log" />
+    <EntitySet Name="Daily_Meal" EntityType="Self.Daily_Meal" />
+    <EntitySet Name="Daily_Measurement" EntityType="Self.Daily_Measurement" />
+    <EntitySet Name="Exercises" EntityType="Self.Exercise" />
+    <EntitySet Name="Meals" EntityType="Self.Meal" />
+    <EntitySet Name="Organizations" EntityType="Self.Organization" />
+    <EntitySet Name="OrganizationTypes" EntityType="Self.OrganizationType" />
+    <EntitySet Name="Species" EntityType="Self.Species" />
+    <AssociationSet Name="FK_Activity_Id_1" Association="Self.FK_Activity_Id_1">
+      <End Role="Activity" EntitySet="Activities" />
+      <End Role="Daily_Log" EntitySet="Daily_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Org_Id_1" Association="Self.FK_Org_Id_1">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Animal" EntitySet="Animals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Species_Id_1" Association="Self.FK_Species_Id_1">
+      <End Role="Species" EntitySet="Species" />
+      <End Role="Animal" EntitySet="Animals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Daily_Log_Id_1" Association="Self.FK_Daily_Log_Id_1">
+      <End Role="Daily_Log" EntitySet="Daily_Log" />
+      <End Role="Daily_Exercise" EntitySet="Daily_Exercise" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Exr_Id_1" Association="Self.FK_Exr_Id_1">
+      <End Role="Exercise" EntitySet="Exercises" />
+      <End Role="Daily_Exercise" EntitySet="Daily_Exercise" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Daily_Log_Id_2" Association="Self.FK_Daily_Log_Id_2">
+      <End Role="Daily_Log" EntitySet="Daily_Log" />
+      <End Role="Daily_Meal" EntitySet="Daily_Meal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Daily_Log_Id_3" Association="Self.FK_Daily_Log_Id_3">
+      <End Role="Daily_Log" EntitySet="Daily_Log" />
+      <End Role="Daily_Measurement" EntitySet="Daily_Measurement" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Meal_Id_1" Association="Self.FK_Meal_Id_1">
+      <End Role="Meal" EntitySet="Meals" />
+      <End Role="Daily_Meal" EntitySet="Daily_Meal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Org_Type_Id_1" Association="Self.FK_Org_Type_Id_1">
+      <End Role="OrganizationType" EntitySet="OrganizationTypes" />
+      <End Role="Organization" EntitySet="Organizations" />
+    </AssociationSet>
+    <EntitySet Name="Courses" EntityType="DB_WeightTrackerModel.Course" />
+    <AssociationSet Name="FK_Animal_Id_1" Association="DB_WeightTrackerModel.FK_Animal_Id_1">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="Course" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Course_Id_1" Association="DB_WeightTrackerModel.FK_Course_Id_1">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="Daily_Log" EntitySet="Daily_Log" />
+    </AssociationSet>
+    <EntitySet Name="Staffs" EntityType="DB_WeightTrackerModel.Staff" />
+    <AssociationSet Name="FK_Staff_Id_1" Association="DB_WeightTrackerModel.FK_Staff_Id_1">
+      <End Role="Staff" EntitySet="Staffs" />
+      <End Role="Course" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Org_Id_2" Association="DB_WeightTrackerModel.FK_Org_Id_2">
+      <End Role="Organization" EntitySet="Organizations" />
+      <End Role="Staff" EntitySet="Staffs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="Course_Id" />
+    </Key>
+    <Property Name="Course_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Start_Date" Type="DateTime" Precision="0" />
+    <Property Name="End_Date" Type="DateTime" Precision="0" />
+    <Property Name="Goal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BMI" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Animal_Id" Type="Int32" />
+    <Property Name="Staff_Id" Type="Int32" />
+    <NavigationProperty Name="Animal" Relationship="DB_WeightTrackerModel.FK_Animal_Id_1" FromRole="Course" ToRole="Animal" />
+    <NavigationProperty Name="Daily_Log" Relationship="DB_WeightTrackerModel.FK_Course_Id_1" FromRole="Course" ToRole="Daily_Log" />
+    <NavigationProperty Name="Staff" Relationship="DB_WeightTrackerModel.FK_Staff_Id_1" FromRole="Course" ToRole="Staff" />
+  </EntityType>
+  <Association Name="FK_Animal_Id_1">
+    <End Type="DB_WeightTrackerModel.Animal" Role="Animal" Multiplicity="0..1" />
+    <End Type="DB_WeightTrackerModel.Course" Role="Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="Animal_Id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Animal_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Course_Id_1">
+    <End Type="DB_WeightTrackerModel.Course" Role="Course" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DB_WeightTrackerModel.Daily_Log" Role="Daily_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="Course_Id" />
+      </Principal>
+      <Dependent Role="Daily_Log">
+        <PropertyRef Name="Course_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="Staff_Id" />
+    </Key>
+    <Property Name="Staff_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Date_Of_Birth" Type="DateTime" Precision="0" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Org_Id" Type="Int32" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="User_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Courses" Relationship="DB_WeightTrackerModel.FK_Staff_Id_1" FromRole="Staff" ToRole="Course" />
+    <NavigationProperty Name="Organization" Relationship="DB_WeightTrackerModel.FK_Org_Id_2" FromRole="Staff" ToRole="Organization" />
+  </EntityType>
+  <Association Name="FK_Staff_Id_1">
+    <End Type="DB_WeightTrackerModel.Staff" Role="Staff" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DB_WeightTrackerModel.Course" Role="Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="Staff_Id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Staff_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Org_Id_2">
+    <End Type="DB_WeightTrackerModel.Organization" Role="Organization" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="DB_WeightTrackerModel.Staff" Role="Staff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organization">
+        <PropertyRef Name="Org_Id" />
+      </Principal>
+      <Dependent Role="Staff">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
